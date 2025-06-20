@@ -3,7 +3,7 @@ import { Routes } from "../interfaces/route.interface";
 import { VerificationController } from "../controllers/verification.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
-export class VerificationRoutes implements Routes {
+export class VerificationRoute implements Routes {
   public path = "/api/v1/verification";
   public router = Router();
   private verificationController = new VerificationController();
