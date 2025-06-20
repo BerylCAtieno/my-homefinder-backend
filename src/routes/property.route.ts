@@ -1,11 +1,9 @@
-// src/routes/propertyRoutes.ts (Updated with validation)
 import {RequestHandler, Router} from 'express';
 import {Routes} from "../interfaces/route.interface";
 import {PropertyController} from '../controllers/property.controller';
 import {PropertyValidationMiddleware} from '../middlewares/property-validation.middleware';
 import {authMiddleware} from "../middlewares/auth.middleware";
 import asyncHandler from "express-async-handler";
-import search from '../controllers/search.controller';
 
 
 export class PropertyRoute implements Routes {
