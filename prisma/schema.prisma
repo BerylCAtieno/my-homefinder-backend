@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -37,10 +37,8 @@ model User {
   passwordResetTokens PasswordResetToken[]
   UserDocument        UserDocument[]
   properties          Property[]
-
-  //landlord and tenant profile
-  tenants   TenantProfile[]
-  landlords LandLordProfile[]
+  landlordProfile     LandLordProfile?
+  tenantProfile       TenantProfile?
 
   sentMessages     Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
@@ -75,25 +73,25 @@ enum VerificationStatus {
 }
 
 model Property {
-  id          String          @id @default(uuid())
-  title       String
-  description String
-  price       Float
-  type        PropertyType
-  address     String
-  city        String
-  state       String
-  country     String
-  latitude    Float?
-  longitude   Float?
-  isAvailable Boolean         @default(true)
-  landlordId  String
-  landlord    User            @relation(fields: [landlordId], references: [id], onDelete: Cascade)
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  deleted     Boolean         @default(false)
-  averageRating Float?      @default(0)
-  images      PropertyImage[]
+  id            String          @id @default(uuid())
+  title         String
+  description   String
+  price         Float
+  type          PropertyType
+  address       String
+  city          String
+  state         String
+  country       String
+  latitude      Float?
+  longitude     Float?
+  isAvailable   Boolean         @default(true)
+  landlordId    String
+  landlord      User            @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deleted       Boolean         @default(false)
+  averageRating Float?          @default(0)
+  images        PropertyImage[]
 
   // future support for messages, documents, bookings
   reviews Review[]
@@ -122,27 +120,38 @@ model TenantProfile {
   id           Int    @id @default(autoincrement())
   profileImage String
   fullName     String
+  firstName    String
+  lastName     String
+  otherName    String
   phoneNumber  String @unique
   street       String
   city         String
   state        String
   NIN          String @unique
-  userId       String
+  userId       String @unique
   user         User   @relation(fields: [userId], references: [id])
+}
+
+enum Preference {
+  CALLS
+  CHATS
+  BOTH
 }
 
 model LandLordProfile {
   id             Int        @id @default(autoincrement())
   profileImage   String
-  typeOfHouse    String
-  numberOfRooms  String
+  fullName       String
+  firstName      String
+  lastName       String
+  otherName      String
   otherInfo      String
-  street         String
-  preference     Preference @default(calls)
+  address        String
+  preference     Preference @default(CALLS)
   NIN            String     @unique
   driversLicense String     @unique
   BVN            String     @unique
-  userId         String
+  userId         String     @unique
   user           User       @relation(fields: [userId], references: [id])
 }
 
@@ -156,12 +165,6 @@ model Message {
   sender     User      @relation("SentMessages", fields: [senderId], references: [id])
   receiver   User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
   property   Property? @relation("PropertyMessages", fields: [propertyId], references: [id])
-}
-
-enum Preference {
-  calls
-  chat
-  both
 }
 
 enum StarRating {
