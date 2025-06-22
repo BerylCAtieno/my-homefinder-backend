@@ -5,10 +5,10 @@ import {asyncHandler} from "../utils/asyncHandler.util";
 import {UserController} from "../controllers/user.controller";
 import {uploadMiddleware} from "../middlewares/upload.middleware";
 
-class UserRoutes implements Routes {
-    public path = "/api/v1/user"
-    public router = Router();
-    private userController = new UserController();
+export class UserRoute implements Routes {
+  public path ="/users"
+  public router = Router();
+  public userController = new UserController();
 
     constructor() {
         this.initializeRoutes();
@@ -24,4 +24,4 @@ class UserRoutes implements Routes {
     }
 }
 
-export default UserRoutes;
+    

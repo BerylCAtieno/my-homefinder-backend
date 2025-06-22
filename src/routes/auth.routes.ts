@@ -11,7 +11,7 @@ import {
 } from "../middlewares/rate-limiter.middleware";
 
 export class AuthRoute implements Routes {
-  public path = "/api/v1/auth";
+  public path = "/auth";
   public router: Router = Router();
   private authController = new AuthController();
 

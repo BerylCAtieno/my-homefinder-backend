@@ -8,7 +8,7 @@ import { RequestWithUser } from '../interfaces/auth.interface';
 import { Request } from 'express';
 
 export class ReviewRoute implements Routes {
-  public path = '/api/v1/reviews';
+  public path = '/reviews';
   public router = Router();
   private reviewController = new ReviewController();
 
@@ -19,7 +19,7 @@ export class ReviewRoute implements Routes {
   private initializeRoutes() {
     // Create a review for a property
     this.router.post(
-      `${this.path}/property/:propertyId`,
+      `/property/:propertyId`,
       authMiddleware,
       ReviewValidationMiddleware.validateCreateReview,
       asyncHandler((req: Request, res, next) => 
@@ -29,7 +29,7 @@ export class ReviewRoute implements Routes {
 
     // Get all reviews for a property
     this.router.get(
-      `${this.path}/property/:propertyId`,
+      `/property/:propertyId`,
       asyncHandler(this.reviewController.getPropertyReviews)
     );
   }

@@ -3,8 +3,8 @@ import { Routes } from "../interfaces/route.interface";
 import { VerificationController } from "../controllers/verification.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
-export class VerificationRoutes implements Routes {
-  public path = "/api/v1/verification";
+export class VerificationRoute implements Routes {
+  public path = "/verification";
   public router = Router();
   private verificationController = new VerificationController();
 
@@ -14,7 +14,7 @@ export class VerificationRoutes implements Routes {
 
   private initializeRoutes() {
     this.router.post(
-      `${this.path}/id`,
+      `/id`,
       authMiddleware,
       this.verificationController.verify,
     );
