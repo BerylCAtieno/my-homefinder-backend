@@ -13,7 +13,7 @@ export const uploadMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  setCloudinaryParams(req, req.body.folder || req.query.folder as string, req.body.format || req.query.format as string);
+  setCloudinaryParams(req, req.query.folder as string, req.query.format as string);
 
   const upload = multer({ storage }).single("doc");
 
@@ -32,7 +32,7 @@ export const uploadMultipleMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  setCloudinaryParams(req, req.body.folder || req.query.folder as string, req.body.format || req.query.format as string);
+  setCloudinaryParams(req, req.query.folder as string, req.query.format as string);
 
   const upload = multer({ storage }).array("docs", 10); // Limit to 10 files
 
