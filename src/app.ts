@@ -16,6 +16,8 @@ class App {
   public app: Application;
   public prisma: PrismaClient;
 
+  private readonly BASE_PATH = "/api/v1"; 
+
   constructor(routes: Routes[]) {
     this.port = (PORT || 8500) as number;
     this.app = express();
@@ -42,8 +44,8 @@ class App {
       res.send("Welcome to My Homefinder");
     });
     
-    routes.forEach(({ router }) => {
-      this.app.use("/", router);
+    routes.forEach(({ path, router }) => {
+      this.app.use(`${this.BASE_PATH}${path}`, router);
     });
   };
 

@@ -8,7 +8,7 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 import {asyncHandler} from "../utils/asyncHandler.util";
 
 export class UserRoute implements Routes {
-  public path ="/api/v1/users"
+  public path ="users"
   public router = Router();
 
   constructor() {

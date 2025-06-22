@@ -7,7 +7,7 @@ import asyncHandler from "express-async-handler";
 
 
 export class PropertyRoute implements Routes {
-    public path = "/api/v1/property";
+    public path = "/property";
     public router: Router = Router();
     private propertyController = new PropertyController();
 
@@ -46,7 +46,7 @@ export class PropertyRoute implements Routes {
 
         // get all properties in a location
         this.router.get(
-            `location`,
+            `/location`,
             authMiddleware,
             asyncHandler(this.propertyController.getPropertiesAtLocation as RequestHandler)
         );
