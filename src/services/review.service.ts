@@ -98,25 +98,20 @@ export class ReviewService {
     }
   }
 
-  private async updatePropertyAverageRating(propertyId: string) {
+ private async updatePropertyAverageRating(propertyId: string) {
+  const reviews = await prisma.review.findMany({
+    where: { propertyId }
+  });
 
-    const reviews = await prisma.review.findMany({
-      where: { propertyId },
-      select: {
-        rating: true 
-      }
-    });
+  const average = reviews.length > 0
+    ? reviews.reduce((acc, review) => {
+        return acc + Number(review.rating);
+      }, 0) / reviews.length
+    : 0;
 
-    const totalRating = reviews.reduce((sum, review) => sum + (typeof review.rating === 'number' ? review.rating : 0), 0);
-
-    const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-
-    await prisma.property.update({
-      where: { id: propertyId },
-      data: {
-        averageRating: averageRating
-      }
-    })
-  
-  }
+  await prisma.property.update({
+    where: { id: propertyId },
+    data: { averageRating: average }
+  });
+}
 }

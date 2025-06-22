@@ -42,8 +42,8 @@ class App {
       res.send("Welcome to My Homefinder");
     });
     
-    routes.forEach(({ path, router }) => {
-      this.app.use(path, router);
+    routes.forEach(({ router }) => {
+      this.app.use("/", router);
     });
   };
 
