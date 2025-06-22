@@ -1,27 +1,27 @@
-import upload from "../middlewares/upload"
-import userProfileController from "../controllers/profileCreation.controller";
-import {RequestHandler, Router} from "express";
-import { Routes } from "../interfaces/route.interface";
-import tenantAccess from "../middlewares/tenantAccess.middleware";
-import landLordAccess from "../middlewares/landLordAccess.middleware";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import {Router} from "express";
+import {Routes} from "../interfaces/route.interface";
+import {authMiddleware} from "../middlewares/auth.middleware";
 import {asyncHandler} from "../utils/asyncHandler.util";
+import {UserController} from "../controllers/user.controller";
+import {uploadMiddleware} from "../middlewares/upload.middleware";
 
-class UserRoutes implements Routes {
-  public path ="/api/v1/users"
+export class UserRoute implements Routes {
+  public path ="/users"
   public router = Router();
+  public userController = new UserController();
 
-  constructor() {
-    this.initializeRoutes();
-  }
-  // create profile eendpoint will be lik'be /createProfile/userId?user=tenent, can also be ?user=landlord
-  //same as that of update profile
+    constructor() {
+        this.initializeRoutes();
+    }
 
-  private initializeRoutes() {
-    this.router.post("/createProfile", upload.single("image"),authMiddleware,  asyncHandler(userProfileController.createProfile));
-    this.router.patch("/updateProfile", upload.single("image"),authMiddleware, asyncHandler(userProfileController.updateProfile))
-    this.router.get("/getTenantProfile",authMiddleware,tenantAccess as RequestHandler ,asyncHandler(userProfileController.getProfile))
-    this.router.get("/getLandlordProfile",authMiddleware,landLordAccess as RequestHandler,asyncHandler(userProfileController.getProfile))
-  }
+    private initializeRoutes() {
+        this.router.patch("/updateprofile", authMiddleware, asyncHandler(this.userController.updateUserProfile))
+        this.router.post("/uploadprofilepic", authMiddleware, uploadMiddleware, asyncHandler(this.userController.uploadProfilePic))
+        this.router.get("/:id", authMiddleware, asyncHandler(this.userController.getUserById));
+        this.router.get("/", authMiddleware, asyncHandler(this.userController.getAllUsers));
+        this.router.patch("/:id", authMiddleware, asyncHandler(this.userController.updateUser));
+        this.router.delete("/:id", authMiddleware, asyncHandler(this.userController.deleteUser));
+    }
 }
-export default UserRoutes;
+
+    

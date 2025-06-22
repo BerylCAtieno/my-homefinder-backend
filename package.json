@@ -12,6 +12,9 @@
   "author": "",
   "license": "ISC",
   "description": "MyHomeFinder Backend API",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.4.1",
     "@prisma/client": "^6.9.0",
