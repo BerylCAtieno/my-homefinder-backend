@@ -7,8 +7,8 @@ import landLordAccess from "../middlewares/landLordAccess.middleware";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import {asyncHandler} from "../utils/asyncHandler.util";
 
-class UserRoutes implements Routes {
-  public path ="/api/v1/users"
+export class UserRoute implements Routes {
+  public path ="/users"
   public router = Router();
 
   constructor() {
@@ -24,4 +24,3 @@ class UserRoutes implements Routes {
     this.router.get("/getLandlordProfile",authMiddleware,landLordAccess as RequestHandler,asyncHandler(userProfileController.getProfile))
   }
 }
-export default UserRoutes;
