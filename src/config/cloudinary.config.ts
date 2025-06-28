@@ -17,9 +17,12 @@ cloudinary.config(config);
 const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
+    // Use folder and format from req if available, fallback to defaults
+    const folder = req.cloudinaryFolder || "documents";
+    const format = req.cloudinaryFormat || "pdf";
     return {
-      folder: "document",
-      format: "pdf",
+      folder,
+      format,
       public_id: `${Date.now()}-${file.originalname}`,
     };
   },
