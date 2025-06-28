@@ -1,10 +1,10 @@
-name: Run Tests
+name: test_dev.yaml
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
   pull_request:
-    branches: [main]
+    branches: [dev]
 
 jobs:
   test:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Wait for PostgreSQL
         run: |
           for i in $(seq 1 10); do
@@ -61,7 +61,7 @@ jobs:
         env:
           DATABASE_URL: postgres://testuser:testpass@localhost:5432/testdb
 
-      - name: Run seed script 
+      - name: Run seed script
         run: npx prisma db seed
         env:
           DATABASE_URL: postgres://testuser:testpass@localhost:5432/testdb
